@@ -55,6 +55,9 @@ func process(path string, option string) {
 		mode := ls.Mode()
 		if mode&os.ModeSymlink != 0 || mode&os.ModeIrregular != 0 {
 			fmt.Printf("Found symlink, skipping: %s\n", path)
+			if info.IsDir() {
+				return filepath.SkipDir
+			}
 		} else {
 			name := info.Name()
 			if len(name) > 0 && name[0] == '.' && !info.IsDir() {

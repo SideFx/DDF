@@ -3,7 +3,7 @@
 // Purpose:     Recursively delete dot files
 // Author:      Jan Buchholz
 // Created:     2026-11-19
-// Last update: 2026-11-19
+// Last update: 2026-11-20
 /////////////////////////////////////////////////////////////////////////////
 
 package main
@@ -61,8 +61,10 @@ func process(path string, option string) {
 		} else {
 			name := info.Name()
 			if len(name) > 0 && name[0] == '.' && !info.IsDir() {
-				fmt.Printf("Found dot file: %s\n", path)
-				if option == "d" {
+				switch option {
+				case "l":
+					fmt.Printf("Found dot file: %s\n", path)
+				case "d":
 					err = os.Remove(path)
 					if err != nil {
 						switch {
@@ -74,7 +76,7 @@ func process(path string, option string) {
 							fmt.Printf("Error deleting file: %s\n", err.Error())
 						}
 					} else {
-						fmt.Printf("%s deleted.\n\n", path)
+						fmt.Printf("File %s successfully deleted.\n", path)
 					}
 				}
 			}
